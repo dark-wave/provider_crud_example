@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqlitecrudprovider/src/model/user.dart';
 
 class DBHelper {
   static const _databaseName = 'Users.db';
@@ -33,5 +34,21 @@ class DBHelper {
 
   Future _onCreateDatabase(Database db, int version) async{
     await db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, email TEXT NOT NULL)');
+  }
+
+  Future<int> createUser(User user) async{
+    final Database db = await database;
+
+    int inserted = await db.insert('users', user.toJson());
+
+    return inserted;
+  }
+
+  Future<List<User>> listUsers() async{
+    final Database db = await database;
+    
+    final List<Map<String, Object?>> respDb = await db.query('users');
+
+    return respDb.map((e) => User.fromJson(e)).toList();
   }
 }
