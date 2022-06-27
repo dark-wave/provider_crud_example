@@ -75,17 +75,17 @@ class _UserFormPageState extends State<UserFormPage> {
                 return null;
               },
             ),
-            Expanded(
-              child: ElevatedButton(
-                child: const Text('Agregar'),
-                onPressed: (){
+            Expanded(child: Container()),
+            ElevatedButton(
+              child: const Text('Agregar'),
+              onPressed: (){
+                if(_formKey.currentState!.validate()){
                   final userService = Provider.of<UserProvider>(context, listen: false);
                   userService.addUser(_inputNameController.text, _inputLastNameController.text, _inputEmailController.text);
 
-                  // Al aceptar nos salimos del formulario
                   Navigator.of(context).pop();
                 }
-              )
+              }
             )
           ],
         )

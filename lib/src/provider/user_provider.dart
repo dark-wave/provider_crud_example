@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sqlitecrudprovider/src/database/db_helper.dart';
 import 'package:sqlitecrudprovider/src/model/user.dart';
 
-class UserProvider with ChangeNotifier{
+class UserProvider extends ChangeNotifier{
 
-  late List<User> _userList;
+  static List<User> _userList = [];
 
   List<User> get userList => _userList;
 
@@ -12,6 +12,8 @@ class UserProvider with ChangeNotifier{
   Future<void> addUser(String nombre, String apellidos, String email) async{   
     User user = User(nombre: nombre, apellidos: apellidos, email: email);
     await DBHelper.instance.createUser(user);
+
+    listUsers();
   } 
 
 

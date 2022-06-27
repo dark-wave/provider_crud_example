@@ -10,24 +10,38 @@ class UserListPage extends StatefulWidget {
 }
 
 class _UserListPageState extends State<UserListPage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    Provider.of<UserProvider>(context, listen: false).listUsers();
+  }
+  
   @override
   Widget build(BuildContext context) {
-    final userList = context.watch<UserProvider>().userList;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lista de Usuarios'),
       ),
-      body: ListView.builder(
-        itemCount: userList.length,
-        itemBuilder: (_, index){
-          final currentUser = userList[index];
+      body: Consumer<UserProvider>(
+        builder: (context, data, child){
+          var userList = data.userList;
 
-          return ListTile(
-            leading: const Icon(Icons.person),
-            title: Text(currentUser.nombre),
-          );
-        }
+          if(userList.isNotEmpty){
+            return ListView.builder(
+              itemCount: userList.length,
+              itemBuilder: (context, index) {
+                var user = userList[index];
+                return ListTile(
+                  title: Text(user.nombre),
+                );
+              },
+            );
+          }else{
+            return const Center(child: Text('No hay usuarios registrados'));
+          }
+        } ,
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

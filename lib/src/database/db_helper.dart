@@ -33,7 +33,7 @@ class DBHelper {
   }
 
   Future _onCreateDatabase(Database db, int version) async{
-    await db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, email TEXT NOT NULL)');
+    await db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellidos TEXT, email TEXT NOT NULL)');
   }
 
   Future<int> createUser(User user) async{
