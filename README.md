@@ -1,16 +1,20 @@
-# sqlitecrudprovider
+# Sqlite Crud Provider
 
-A new Flutter project.
+Proyecto de CRUD usando SqLite y el paquete de Provider como gestor de estado
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Este proyecto ha sido creado con Flutter.
 
-A few resources to get you started if this is your first Flutter project:
+Los siguientes recuersos te pueden ayudar a crear tu primera aplicación con Flutter
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Lab: Crea tu primera app con Flutter](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Ejemplos de uso de Flutter](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Para mas ayuda en el desarrollo de Flutter visita la [Documentación oficial](https://docs.flutter.dev/).
+
+## Recursos usados en este proyecto
+
+Para crear este proyecto de ejemplo me he apoyado en los siguientes paquetes
+- [Flutter Provider](https://pub.dev/packages/provider)
+- [Sqflite](https://pub.dev/packages/sqflite)
