@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sqlitecrudprovider/src/provider/user_provider.dart';
+
+class UserFormPage extends StatefulWidget {
+  const UserFormPage({Key? key}) : super(key: key);
+
+  @override
+  State<UserFormPage> createState() => _UserFormPageState();
+}
+
+class _UserFormPageState extends State<UserFormPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _inputNameController = TextEditingController();
+  final _inputLastNameController = TextEditingController();
+  final _inputEmailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _inputNameController.dispose();
+    _inputLastNameController.dispose();
+    _inputEmailController.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('New User'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFormField(
+              controller: _inputNameController,
+              decoration: const InputDecoration(
+                hintText: 'Introduce nombre',
+                labelText: 'Nombre'
+              ),
+              validator: (value){
+                if(value!.isEmpty){
+                  return 'El nombre es obligatorio';
+                }
+
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _inputLastNameController,
+              decoration: const InputDecoration(
+                hintText: 'Introduce apellidos',
+                labelText: 'Apellidos'
+              ),
+            ),
+            TextFormField(
+              controller: _inputEmailController,
+              decoration: const InputDecoration(
+                hintText: 'Introduce email',
+                labelText: 'Email'
+              ),
+              validator: (value){
+                if(value!.isEmpty){
+                  return 'El email es obligatorio';
+                }
+
+                bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
+                if(!emailValid){
+                  return 'El formato del email no es válido';
+                }
+                
+                return null;
+              },
+            ),
+            Expanded(
+              child: ElevatedButton(
+                child: const Text('Agregar'),
+                onPressed: (){
+                  final userService = Provider.of<UserProvider>(context, listen: false);
+                  userService.addUser(_inputNameController.text, _inputLastNameController.text, _inputEmailController.text);
+                }
+              )
+            )
+          ],
+        )
+      )
+    );
+  }
+}

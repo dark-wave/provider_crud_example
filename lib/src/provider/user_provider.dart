@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sqlitecrudprovider/src/database/db_helper.dart';
 import 'package:sqlitecrudprovider/src/model/user.dart';
 
-class UserService with ChangeNotifier{
+class UserProvider with ChangeNotifier{
 
   late List<User> _userList;
 
