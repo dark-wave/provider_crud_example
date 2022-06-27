@@ -15,7 +15,7 @@ class UserProvider with ChangeNotifier{
   } 
 
 
-  Future<void> listusers() async{
+  Future<void> listUsers() async{
     _userList = await DBHelper.instance.listUsers();
 
     notifyListeners();

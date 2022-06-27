@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sqlitecrudprovider/src/pages/user_form.dart';
+import 'package:sqlitecrudprovider/src/pages/user_list.dart';
 import 'package:sqlitecrudprovider/src/provider/user_provider.dart';
 
 void main() => runApp(const MyApp());
@@ -15,14 +17,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'CRUD provider',
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Crud provider'),
-          ),
-          body: const Center(
-            child: Text('Hello World!!'),
-          ),
-        ),
+        initialRoute: 'userList',
+        routes: {
+          'userList': (BuildContext context) => const UserListPage(),
+          'userForm': (BuildContext context) => const UserFormPage()
+        }
       ),
     );
   }

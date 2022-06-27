@@ -81,6 +81,9 @@ class _UserFormPageState extends State<UserFormPage> {
                 onPressed: (){
                   final userService = Provider.of<UserProvider>(context, listen: false);
                   userService.addUser(_inputNameController.text, _inputLastNameController.text, _inputEmailController.text);
+
+                  // Al aceptar nos salimos del formulario
+                  Navigator.of(context).pop();
                 }
               )
             )
