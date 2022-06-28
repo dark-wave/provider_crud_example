@@ -16,15 +16,14 @@ class UserProvider extends ChangeNotifier{
     listUsers();
   } 
 
+  Future<void> deleteUser(int id) async{
+    await DBHelper.instance.deleteUser(id);
+
+    listUsers();
+  }
 
   Future<void> listUsers() async{
     _userList = await DBHelper.instance.listUsers();
-
-    notifyListeners();
-  }
-
-  Future<void> deleteUser(int id) async{
-    await DBHelper.instance.deleteUser(id);
 
     notifyListeners();
   }
