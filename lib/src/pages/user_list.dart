@@ -35,6 +35,7 @@ class _UserListPageState extends State<UserListPage> {
                 var user = userList[index];
                 return Dismissible(
                   key: UniqueKey(),
+                  background: Container(color: Colors.red),
                   onDismissed: (direction){
                     Provider.of<UserProvider>(context, listen: false).deleteUser(user.id!);
                   },
