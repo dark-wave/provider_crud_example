@@ -51,4 +51,10 @@ class DBHelper {
 
     return respDb.map((e) => User.fromJson(e)).toList();
   }
+
+  Future<void> deleteUser(int id) async{
+    final Database db = await database;
+
+    db.delete('users', where: 'id = ?', whereArgs: [id]);
+  }
 }

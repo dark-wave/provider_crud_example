@@ -33,8 +33,15 @@ class _UserListPageState extends State<UserListPage> {
               itemCount: userList.length,
               itemBuilder: (context, index) {
                 var user = userList[index];
-                return ListTile(
-                  title: Text(user.nombre),
+                return Dismissible(
+                  key: Key('${user.id}'),
+                  onDismissed: (direction){
+                    Provider.of<UserProvider>(context, listen: false).deleteUser(user.id!);
+                  },
+                  child: ListTile(
+                    title: Text(user.nombre),
+                    leading: const Icon(Icons.person),
+                  ),
                 );
               },
             );

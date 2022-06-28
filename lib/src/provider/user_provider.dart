@@ -22,4 +22,10 @@ class UserProvider extends ChangeNotifier{
 
     notifyListeners();
   }
+
+  Future<void> deleteUser(int id) async{
+    await DBHelper.instance.deleteUser(id);
+
+    notifyListeners();
+  }
 }
