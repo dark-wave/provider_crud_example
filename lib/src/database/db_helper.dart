@@ -57,4 +57,10 @@ class DBHelper {
 
     db.delete('users', where: 'id = ?', whereArgs: [id]);
   }
+
+  Future<void> updateUser(User user) async{
+    final Database db = await database;
+
+    db.update('users', user.toJson(), where: 'id = ?', whereArgs: [user.id]);
+  }
 }

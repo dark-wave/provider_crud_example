@@ -14,6 +14,12 @@ class UserProvider extends ChangeNotifier{
     await DBHelper.instance.createUser(user);
 
     listUsers();
+  }
+
+  Future<void> updateUser(User user) async{
+    await DBHelper.instance.updateUser(user);
+    
+    listUsers();
   } 
 
   Future<void> deleteUser(int id) async{

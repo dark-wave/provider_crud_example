@@ -29,22 +29,30 @@ class _UserListPageState extends State<UserListPage> {
           var userList = data.userList;
 
           if(userList.isNotEmpty){
-            return ListView.builder(
-              itemCount: userList.length,
-              itemBuilder: (context, index) {
-                var user = userList[index];
-                return Dismissible(
-                  key: UniqueKey(),
-                  background: Container(color: Colors.red),
-                  onDismissed: (direction){
-                    Provider.of<UserProvider>(context, listen: false).deleteUser(user.id!);
-                  },
-                  child: ListTile(
-                    title: Text(user.nombre),
-                    leading: const Icon(Icons.person),
-                  ),
-                );
-              },
+            return SingleChildScrollView(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: userList.length,
+                itemBuilder: (context, index) {
+                  var user = userList[index];
+                  return Dismissible(
+                    key: UniqueKey(),
+                    background: Container(
+                      color: Colors.red,
+                      child: const Text('Eliminar'),
+                    ),
+                    onDismissed: (direction){
+                      Provider.of<UserProvider>(context, listen: false).deleteUser(user.id!);
+                    },
+                    child: ListTile(
+                      title: Text(user.nombre),
+                      leading: const Icon(Icons.person),
+                      onTap: () => Navigator.pushNamed(context, 'userForm', arguments: user),
+                    ),
+                  );
+                },
+              ),
             );
           }else{
             return const Center(child: Text('No hay usuarios registrados!!'));
