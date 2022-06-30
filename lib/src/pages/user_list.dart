@@ -36,19 +36,21 @@ class _UserListPageState extends State<UserListPage> {
                 itemCount: userList.length,
                 itemBuilder: (context, index) {
                   var user = userList[index];
-                  return Dismissible(
-                    key: UniqueKey(),
-                    background: Container(
-                      color: Colors.red,
-                      child: const Text('Eliminar'),
-                    ),
-                    onDismissed: (direction){
-                      Provider.of<UserProvider>(context, listen: false).deleteUser(user.id!);
-                    },
-                    child: ListTile(
-                      title: Text(user.nombre),
-                      leading: const Icon(Icons.person),
-                      onTap: () => Navigator.pushNamed(context, 'userForm', arguments: user),
+                  return Card(
+                    child: Dismissible(
+                      key: UniqueKey(),
+                      background: Container(
+                        color: Colors.red,
+                        child: const Text('Eliminar'),
+                      ),
+                      onDismissed: (direction){
+                        Provider.of<UserProvider>(context, listen: false).deleteUser(user.id!);
+                      },
+                      child: ListTile(
+                        title: Text(user.nombre),
+                        leading: const Icon(Icons.person),
+                        onTap: () => Navigator.pushNamed(context, 'userForm', arguments: user),
+                      ),
                     ),
                   );
                 },
