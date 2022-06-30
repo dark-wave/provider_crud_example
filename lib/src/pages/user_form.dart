@@ -96,8 +96,13 @@ class _UserFormPageState extends State<UserFormPage> {
                   onPressed: (){
                     if(_formKey.currentState!.validate()){
                       final userService = Provider.of<UserProvider>(context, listen: false);
-                      
+
                       if(_objUser != null){
+                        _objUser.nombre = _inputNameController.text;
+                        _objUser.apellidos = _inputLastNameController.text;
+                        _objUser.email = _inputEmailController.text;
+
+                        
                         userService.updateUser(_objUser);
                       }else{
                         userService.addUser(_inputNameController.text, _inputLastNameController.text, _inputEmailController.text);
