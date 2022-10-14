@@ -36,6 +36,7 @@ class DBHelper {
     await db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellidos TEXT, email TEXT NOT NULL)');
   }
 
+  // Método que crea un usuario en base de datos
   Future<int> createUser(User user) async{
     final Database db = await database;
 
@@ -44,6 +45,7 @@ class DBHelper {
     return inserted;
   }
 
+  // Método que lista todos los usuarios de base de datos
   Future<List<User>> listUsers() async{
     final Database db = await database;
     
@@ -52,12 +54,14 @@ class DBHelper {
     return respDb.map((e) => User.fromJson(e)).toList();
   }
 
+  // Método que elimina un usuario de base de datos
   Future<void> deleteUser(int id) async{
     final Database db = await database;
 
     db.delete('users', where: 'id = ?', whereArgs: [id]);
   }
 
+  // Método que actualiza un usuario existente
   Future<void> updateUser(User user) async{
     final Database db = await database;
 

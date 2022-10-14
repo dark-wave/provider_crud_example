@@ -4,7 +4,8 @@ import 'package:sqlitecrudprovider/src/model/user.dart';
 import 'package:sqlitecrudprovider/src/provider/user_provider.dart';
 
 class UserFormPage extends StatefulWidget {
-  const UserFormPage({Key? key}) : super(key: key);
+  final User? editUser;
+  const UserFormPage({Key? key, this.editUser}) : super(key: key);
 
   @override
   State<UserFormPage> createState() => _UserFormPageState();
@@ -15,6 +16,16 @@ class _UserFormPageState extends State<UserFormPage> {
   final _inputNameController = TextEditingController();
   final _inputLastNameController = TextEditingController();
   final _inputEmailController = TextEditingController();
+
+  @override
+  void initState() {
+    if(widget.editUser != null){
+      _inputNameController.text = widget.editUser!.nombre;
+      _inputLastNameController.text = widget.editUser!.apellidos != null ? widget.editUser!.apellidos! : '';
+      _inputEmailController.text = widget.editUser!.email;
+    }
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -30,11 +41,9 @@ class _UserFormPageState extends State<UserFormPage> {
     //Obtenemos el usuario si viene informado
      Object? _objUser = ModalRoute.of(context)?.settings.arguments as User?;
 
-     User editUser = User(id: 1, nombre: 'Noe', apellidos: 'Montes', email: 'noe@mail.com');
-
     return Scaffold(
       appBar: AppBar(
-        title: Text((editUser.id!=null) ? 'Edit User' : 'New User'),
+        title: Text((_objUser!=null) ? 'Editar usuario' : 'Nuevo usuario'),
       ),
       body: SafeArea(
         child: Padding(
@@ -46,7 +55,6 @@ class _UserFormPageState extends State<UserFormPage> {
               children: [
                 TextFormField(
                   controller: _inputNameController,
-                  initialValue: editUser.nombre,
                   decoration: const InputDecoration(
                     hintText: 'Introduce nombre',
                     labelText: 'Nombre'
@@ -61,7 +69,6 @@ class _UserFormPageState extends State<UserFormPage> {
                 ),
                 TextFormField(
                   controller: _inputLastNameController,
-                  initialValue: editUser.apellidos,
                   decoration: const InputDecoration(
                     hintText: 'Introduce apellidos',
                     labelText: 'Apellidos'
@@ -69,7 +76,6 @@ class _UserFormPageState extends State<UserFormPage> {
                 ),
                 TextFormField(
                   controller: _inputEmailController,
-                  initialValue: editUser.email,
                   decoration: const InputDecoration(
                     hintText: 'Introduce email',
                     labelText: 'Email'
@@ -96,10 +102,15 @@ class _UserFormPageState extends State<UserFormPage> {
                     if(_formKey.currentState!.validate()){
                       final userService = Provider.of<UserProvider>(context, listen: false);
 
-                      
-                      userService.addUser(_inputNameController.text, _inputLastNameController.text, _inputEmailController.text);
-                      
-      
+                      if(widget.editUser != null){ // Es una edicion de usuario
+                        widget.editUser!.nombre = _inputNameController.text;
+                        widget.editUser!.apellidos = _inputLastNameController.text;
+                        widget.editUser!.email = _inputEmailController.text;
+
+                        userService.updateUser(widget.editUser!);
+                      }else{ //Es un alta
+                        userService.addUser(_inputNameController.text, _inputLastNameController.text, _inputEmailController.text);
+                      }
                       Navigator.of(context).pop();
                     }
                   },

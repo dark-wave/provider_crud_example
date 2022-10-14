@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sqlitecrudprovider/src/pages/user_form.dart';
 import 'package:sqlitecrudprovider/src/provider/user_provider.dart';
 
 class UserListPage extends StatefulWidget {
@@ -38,17 +39,14 @@ class _UserListPageState extends State<UserListPage> {
                   var user = userList[index];
                   return Dismissible(
                     key: UniqueKey(),
-                    background: Container(
-                      color: Colors.red,
-                      child: const Text('Eliminar'),
-                    ),
+                    background: const BackgroundDismissContainer(),
                     onDismissed: (direction){
                       Provider.of<UserProvider>(context, listen: false).deleteUser(user.id!);
                     },
                     child: ListTile(
                       title: Text(user.nombre),
                       leading: const Icon(Icons.person),
-                      onTap: () => Navigator.pushNamed(context, 'userForm', arguments: user),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserFormPage(editUser: user))),
                     ),
                   );
                 },
@@ -62,6 +60,33 @@ class _UserListPageState extends State<UserListPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => Navigator.pushNamed(context, 'userForm'),
+      ),
+    );
+  }
+}
+
+class BackgroundDismissContainer extends StatelessWidget {
+  const BackgroundDismissContainer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            Colors.white70,
+            Color.fromARGB(255, 161, 31, 29)
+          ]
+        )
+      ),
+      child: const Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: EdgeInsets.only(right: 30),
+          child: Icon(Icons.delete_forever, color: Colors.white, size: 40),
+        )
       ),
     );
   }

@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider())
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'CRUD provider',
         initialRoute: 'userList',
         routes: {
