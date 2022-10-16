@@ -38,12 +38,9 @@ class _UserFormPageState extends State<UserFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    //Obtenemos el usuario si viene informado
-     Object? _objUser = ModalRoute.of(context)?.settings.arguments as User?;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text((_objUser!=null) ? 'Editar usuario' : 'Nuevo usuario'),
+        title: Text((widget.editUser!=null) ? 'Editar usuario' : 'Nuevo usuario'),
       ),
       body: SafeArea(
         child: Padding(
