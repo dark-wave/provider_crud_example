@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:sqlitecrudprovider/src/api/api_const.dart';
 import 'package:sqlitecrudprovider/src/model/user.dart';
+import 'dart:io' show Platform;
+import 'package:http/http.dart' as http;
 
 class UserApiProvider extends ChangeNotifier{
   static List<User> _userList = []; 
@@ -12,5 +17,18 @@ class UserApiProvider extends ChangeNotifier{
 
   Future<void> deleteUser(int id) async{}
 
-  Future<void> listUsers() async{}
+  Future<void> listUsers() async{
+    final String baseUrl = Platform.isIOS ? ApiConst.baseUrlIos : ApiConst.baseUrlAndroid; 
+    const String endPoint = 'users';
+
+    var url = Uri.parse(baseUrl + endPoint);
+    var response = await http.get(url, headers: {'Content-Type': 'application/json'});
+
+    if(response.statusCode ==200){
+      List<dynamic> jsonReponse = json.decode(utf8.decode(response.bodyBytes));
+      _userList = jsonReponse.map((user) => User.fromJson(user)).toList();
+
+      notifyListeners();
+    }
+  }
 }

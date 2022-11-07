@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqlitecrudprovider/src/pages/user_form.dart';
 import 'package:sqlitecrudprovider/src/pages/user_list.dart';
+import 'package:sqlitecrudprovider/src/provider/user_api_provider.dart';
 import 'package:sqlitecrudprovider/src/provider/user_provider.dart';
 
 void main() => runApp(const MyApp());
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider())
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => UserApiProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

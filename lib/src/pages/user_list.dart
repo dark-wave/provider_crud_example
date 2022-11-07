@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqlitecrudprovider/src/pages/user_form.dart';
+import 'package:sqlitecrudprovider/src/provider/user_api_provider.dart';
 import 'package:sqlitecrudprovider/src/provider/user_provider.dart';
 
 class UserListPage extends StatefulWidget {
@@ -16,7 +17,8 @@ class _UserListPageState extends State<UserListPage> {
   void initState() {
     super.initState();
 
-    Provider.of<UserProvider>(context, listen: false).listUsers();
+    //Provider.of<UserProvider>(context, listen: false).listUsers();
+    Provider.of<UserApiProvider>(context, listen: false).listUsers();
   }
   
   @override
@@ -25,7 +27,7 @@ class _UserListPageState extends State<UserListPage> {
       appBar: AppBar(
         title: const Text('Lista de Usuarios'),
       ),
-      body: Consumer<UserProvider>(
+      body: Consumer<UserApiProvider>(
         builder: (context, data, child){
           var userList = data.userList;
 
@@ -41,7 +43,7 @@ class _UserListPageState extends State<UserListPage> {
                     key: UniqueKey(),
                     background: const BackgroundDismissContainer(),
                     onDismissed: (direction){
-                      Provider.of<UserProvider>(context, listen: false).deleteUser(user.id!);
+                      Provider.of<UserApiProvider>(context, listen: false).deleteUser(user.id!);
                     },
                     child: ListTile(
                       title: Text(user.nombre),
