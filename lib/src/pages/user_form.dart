@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqlitecrudprovider/src/model/user.dart';
+import 'package:sqlitecrudprovider/src/provider/user_api_provider.dart';
 import 'package:sqlitecrudprovider/src/provider/user_provider.dart';
 
 class UserFormPage extends StatefulWidget {
@@ -97,7 +98,7 @@ class _UserFormPageState extends State<UserFormPage> {
                   ),
                   onPressed: (){
                     if(_formKey.currentState!.validate()){
-                      final userService = Provider.of<UserProvider>(context, listen: false);
+                      final userService = Provider.of<UserApiProvider>(context, listen: false);
 
                       if(widget.editUser != null){ // Es una edicion de usuario
                         widget.editUser!.nombre = _inputNameController.text;

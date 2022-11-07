@@ -11,11 +11,48 @@ class UserApiProvider extends ChangeNotifier{
 
   List<User> get userList => _userList;
 
-  Future<void> addUser(String nombre, String apellidos, String email) async{}
+  Future<void> addUser(String nombre, String apellidos, String email) async{
+    final String baseUrl = Platform.isIOS ? ApiConst.baseUrlIos : ApiConst.baseUrlAndroid; 
+    const String endPoint = 'users';
+    final User user = User(nombre: nombre, apellidos: apellidos, email: email);
 
-  Future<void> updateUser(User user) async{}
+    var url = Uri.parse(baseUrl + endPoint);
+    var response = await http.post(url, 
+                                  headers: {'Content-Type': 'application/json'}, 
+                                  body: userToJson(user));
 
-  Future<void> deleteUser(int id) async{}
+    print(response.body);
+    
+    listUsers();
+  }
+
+  Future<void> updateUser(User user) async{
+    final String baseUrl = Platform.isIOS ? ApiConst.baseUrlIos : ApiConst.baseUrlAndroid; 
+    const String endPoint = 'users';
+
+    var url = Uri.parse('$baseUrl$endPoint/${user.id}');
+
+    var response = await http.put(url, 
+                                  headers: {'Content-Type': 'application/json'},
+                                  body: userToJson(user));
+
+    print(response.body);
+
+    listUsers();
+  }
+
+  Future<void> deleteUser(int id) async{
+    final String baseUrl = Platform.isIOS ? ApiConst.baseUrlIos : ApiConst.baseUrlAndroid; 
+    const String endPoint = 'users';
+
+    var url = Uri.parse('$baseUrl$endPoint/$id');
+
+    var response = await http.delete(url);
+
+    print(response.body);
+
+    listUsers();
+  }
 
   Future<void> listUsers() async{
     final String baseUrl = Platform.isIOS ? ApiConst.baseUrlIos : ApiConst.baseUrlAndroid; 
