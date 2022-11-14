@@ -17,12 +17,10 @@ class UserApiProvider extends ChangeNotifier{
     final User user = User(nombre: nombre, apellidos: apellidos, email: email);
 
     var url = Uri.parse(baseUrl + endPoint);
-    var response = await http.post(url, 
-                                  headers: {'Content-Type': 'application/json'}, 
-                                  body: userToJson(user));
+    await http.post(url, 
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: userToJson(user));
 
-    print(response.body);
-    
     listUsers();
   }
 
@@ -32,11 +30,9 @@ class UserApiProvider extends ChangeNotifier{
 
     var url = Uri.parse('$baseUrl$endPoint/${user.id}');
 
-    var response = await http.put(url, 
-                                  headers: {'Content-Type': 'application/json'},
-                                  body: userToJson(user));
-
-    print(response.body);
+    await http.put(url, 
+                  headers: {'Content-Type': 'application/json'},
+                  body: userToJson(user));
 
     listUsers();
   }
@@ -47,9 +43,7 @@ class UserApiProvider extends ChangeNotifier{
 
     var url = Uri.parse('$baseUrl$endPoint/$id');
 
-    var response = await http.delete(url);
-
-    print(response.body);
+    await http.delete(url);
 
     listUsers();
   }
