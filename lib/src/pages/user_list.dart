@@ -1,5 +1,7 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sqlitecrudprovider/src/network/network_connectivity.dart';
 import 'package:sqlitecrudprovider/src/pages/user_form.dart';
 import 'package:sqlitecrudprovider/src/provider/user_api_provider.dart';
 import 'package:sqlitecrudprovider/src/provider/user_provider.dart';
@@ -13,12 +15,49 @@ class UserListPage extends StatefulWidget {
 
 class _UserListPageState extends State<UserListPage> {
 
+  //Variables de control de estado de red
+  Map _source = {ConnectivityResult.none: false};
+  final NetworkConnectivity _networkConnectivity = NetworkConnectivity.instance;
+  String string = '';
+
   @override
   void initState() {
     super.initState();
 
     //Provider.of<UserProvider>(context, listen: false).listUsers();
     Provider.of<UserApiProvider>(context, listen: false).listUsers();
+
+    //Listen network status
+    _networkConnectivity.initialise();
+    _networkConnectivity.myStream.listen((source) {
+      _source = source;
+
+      print('source $_source');
+      // 1.
+      switch (_source.keys.toList()[0]) {
+        case ConnectivityResult.mobile:
+          string = _source.values.toList()[0] ? 'Mobile: Online' : 'Mobile: Offline';
+          break;
+        case ConnectivityResult.wifi:
+          string = _source.values.toList()[0] ? 'WiFi: Online' : 'WiFi: Offline';
+          break;
+        case ConnectivityResult.none:
+        default:
+          string = 'Offline';
+      }
+
+      setState(() {});
+      
+      //Mostramos el estado en un Snakbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            string,
+            style: const TextStyle(fontSize: 30),
+          ),
+        ),
+      );
+    });
   }
   
   @override
